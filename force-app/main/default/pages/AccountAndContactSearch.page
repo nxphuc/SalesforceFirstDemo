@@ -1,0 +1,55 @@
+<apex:page docType="html-5.0" controller="PageController">
+    <script type="text/javascript">
+        function increaseCounter(ele, id) {
+            objectType = ele.parentNode.parentNode.childNodes[1].innerHTML;
+            counterCell = ele.parentNode.parentNode.childNodes[2];
+            Visualforce.remoting.Manager.invokeAction(
+                "{!$RemoteAction.PageController.increaseCounter}"
+                id, objectType,
+                function (result, event) {
+                    if (event.status) {
+                        counterCell.innerHTML = result.Counter__c;
+                    } else {
+                        // alert the exception
+                        alert(event.message);
+                    }
+                },
+                { escape: true }
+            );
+            return false;
+        }
+    </script>
+    <apex:pageBlock title="Search Account and Contact">
+        <apex:pageBlockSection>
+            <apex:form >
+                <apex:inputText value="{!searchText}" html-placeholder='Search...'></apex:inputText>
+                <apex:commandButton action="{!search}" value="Search" title="Search" reRender="resultSection"></apex:commandButton>
+            </apex:form>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection id="resultSection" columns="1">
+            <apex:outputPanel rendered="{!(searchResult != null && searchResult.size == 0)}">No result!</apex:outputPanel>
+            <apex:pageBlockTable id="resultTable" value="{!searchResult}" var="row" rendered="{!(searchResult != null && searchResult.size > 0)}">
+                <apex:column>
+                    <apex:facet name="header">Record Name</apex:facet>
+                    {!row.Name}
+                </apex:column>
+                <apex:column>
+                    <apex:facet name="header">Record Type</apex:facet>
+                    {!row.Type}
+                </apex:column>
+                <apex:column>
+                    <apex:facet name="header">Counter</apex:facet>
+                    {!row.Counter}
+                </apex:column>
+                <apex:column>
+                    <apex:facet name="header">Click to update counter</apex:facet>
+                    <button onclick="increaseCounter(this, '{!row.Id}')">Increment Counter</button>
+                </apex:column>
+                <apex:column>
+                    <apex:facet name="header">Click to open</apex:facet>
+                    <apex:outputLink value="/{!row.Id}" target="_blank">View</apex:outputLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>
