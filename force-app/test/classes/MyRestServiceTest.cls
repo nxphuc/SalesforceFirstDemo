@@ -57,7 +57,7 @@ public class MyRestServiceTest {
         MyRestService.updateContacts();
 
         System.assertEquals(400, res.statusCode);
-        System.assertEquals('CONTACT_ID_MISSING', res.responseBody.toString());
+        System.assertEquals(Constants.OBJECT_ID_MISSING, res.responseBody.toString());
 
         Test.stopTest();
     }
@@ -78,7 +78,7 @@ public class MyRestServiceTest {
         MyRestService.updateContacts();
 
         System.assertEquals(400, res.statusCode);
-        System.assertEquals('CONTACT_NOT_FOUND', res.responseBody.toString());
+        System.assertEquals(Constants.OBJECT_NOT_FOUND, res.responseBody.toString());
 
         Test.stopTest();
     }
@@ -100,7 +100,7 @@ public class MyRestServiceTest {
         MyRestService.updateContacts();
 
         System.assertEquals(400, res.statusCode);
-        System.assertEquals('CONTACT_ID_DUPLICATED', res.responseBody.toString());
+        System.assertEquals(Constants.OBJECT_ID_DUPLICATED, res.responseBody.toString());
 
         Test.stopTest();
     }

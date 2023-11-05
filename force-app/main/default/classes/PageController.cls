@@ -36,11 +36,11 @@ global with sharing class PageController {
     global static SObject increaseCounter(String id, String type) {
         SObject obj;
         if (!type.equals('Account') && !type.equals('Contact'))
-            throw new ApplicationException('INVALID_TYPE');
+            throw new ApplicationException(Constants.INVALID_TYPE);
         try {
             obj = Database.query('SELECT Id, Counter__c FROM ' + type + ' WHERE Id = \'' + Id + '\' LIMIT 1');
         } catch (Exception e) {
-            throw new ApplicationException('OBJECT_NOT_FOUND');
+            throw new ApplicationException(Constants.OBJECT_NOT_FOUND);
         }
         obj.put('Counter__c', obj.get('Counter__c') != null ? (Decimal)obj.get('Counter__c') + 1 : 1);
         update obj;

@@ -10,19 +10,19 @@ global with sharing class MyRestService {
 
             for (Contact obj : requestBody) {
                 if (String.isEmpty(obj.Id) || String.isBlank(obj.Id))
-                    throw new HttpException('CONTACT_ID_MISSING');
+                    throw new HttpException(Constants.OBJECT_ID_MISSING);
                 if (contactIds.contains(obj.Id))
-                    throw new HttpException('CONTACT_ID_DUPLICATED');
+                    throw new HttpException(Constants.OBJECT_ID_DUPLICATED);
                 contactIds.add(obj.Id);
             }
 
             List<Contact> contactList = [SELECT Id FROM Contact WHERE Id IN :requestBody];
 
             if (contactList.size() != contactIds.size())
-                throw new HttpException('CONTACT_NOT_FOUND');
+                throw new HttpException(Constants.OBJECT_NOT_FOUND);
 
             update requestBody;
-            HttpResponseHandler.SuccessResponse('OK');
+            HttpResponseHandler.SuccessResponse(Constants.SUCCESS);
         } catch (Exception e) {
             HttpResponseHandler.FailureResponse(e.getMessage());
         }

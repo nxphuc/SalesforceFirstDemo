@@ -80,7 +80,7 @@ public with sharing class PageControllerTest {
             System.assert(false, 'Do not expect to go here');
         } catch (Exception e) {
             System.assert(e instanceof PageController.ApplicationException);
-            System.assertEquals('INVALID_TYPE', e.getMessage());
+            System.assertEquals(Constants.INVALID_TYPE, e.getMessage());
         }
         
         Test.stopTest();
@@ -99,7 +99,7 @@ public with sharing class PageControllerTest {
             System.assert(false, 'Do not expect to go here');
         } catch (Exception e) {
             System.assert(e instanceof PageController.ApplicationException);
-            System.assertEquals('OBJECT_NOT_FOUND', e.getMessage());
+            System.assertEquals(Constants.OBJECT_NOT_FOUND, e.getMessage());
         }
         
         Test.stopTest();
